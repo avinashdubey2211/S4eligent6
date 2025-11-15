@@ -1,0 +1,89 @@
+import ProductPage from "../Components/Products/ProductPage";
+import AllProducts from "../Components/Products/AllProducts";
+import LandingPage from "../Pages/LandingPage";
+import UserAccount from "../Authentication/UserAccount";
+import WishList from "../Pages/WishList";
+import ContactUs from "../Pages/ContactUs";
+import AboutUs from "../Pages/AboutUs";
+import TermsAndConditions from "../Pages/TermsAndConditions";
+import ShippingPolicy from "../Pages/ShippingPolicy";
+import CancellationPolicy from "../Pages/CancellationPolicy";
+import Categories from "../Pages/Categories";
+import CategorySubCategoryProducts from "../Components/CategoryWiseProduct";
+
+const routes = [
+  {
+    id: 1,
+    path: "/",
+    element: <LandingPage />,
+  },
+  {
+    id: 2,
+    path: "/home",
+    element: <LandingPage />,
+  },
+  {
+    id: 3,
+    path: "/product/:id/:variant_id",
+    element: <ProductPage />,
+  },
+  {
+    id: 4,
+    path: "/all-products",
+    element: <AllProducts />,
+  },
+  {
+    id: 5,
+    path: "/user-account",
+    element: <UserAccount />,
+  },
+  {
+    id: 6,
+    path: "/wish-list",
+    element: <WishList />,
+  },
+  {
+    id: 7,
+    path: "/contact-us",
+    element: <ContactUs />,
+  },
+  {
+    id: 8,
+    path: "/about-us",
+    element: <AboutUs />,
+  },
+  {
+    id: 9,
+    path: "/terms-and-policy",
+    element: <TermsAndConditions />,
+  },
+  {
+    id: 10,
+    path: "/shipping-policy",
+    element: <ShippingPolicy />,
+  },
+  {
+    id: 11,
+    path: "/cancellation-policy",
+    element: <CancellationPolicy />,
+  },
+  {
+    id: 12,
+    path: "/categories",
+    element: <Categories />,
+  },
+
+  {
+
+    id: 20,
+    path: "/:title/page",
+    element: <CategorySubCategoryProducts />,
+    title: "Products"
+
+
+  }
+
+
+
+];
+export default routes;

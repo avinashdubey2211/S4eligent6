@@ -133,6 +133,7 @@ const CategorySubCategoryProductsDefault = () => {
                                     src={item.image}
                                     alt=""
                                     className="h-40 lg:h-[50vh] object-cover rounded-lg"
+                                    
                                 />
                             </div>
                         ))}

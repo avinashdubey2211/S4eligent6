@@ -76,8 +76,6 @@
 //     CustomizationHeader();
 //   }, []);
 
-
-
 //   const setFavicon = (url) => {
 //     let link =
 //       document.querySelector("link[rel*='icon']") ||
@@ -95,7 +93,6 @@
 //       setFavicon(StoreData?.store_favicon)
 //     }
 //     document.title = StoreData?.store_name || "Title";
-
 
 //   }, [StoreData])
 
@@ -315,7 +312,6 @@
 //             )}
 //           </span>
 
-
 //           <span className="flex items-center gap-4 lg:gap-7">
 
 //             <IconButton onClick={() => setOpen(true)}>
@@ -485,7 +481,6 @@
 //                         key={subCategory.id}
 //                         className="p-2 flex flex-col gap-2 cursor-pointer hover:underline"
 
-
 //                         onClick={() =>
 //                           navigate(`/${subCategory.subcategory}/page`, {
 //                             state: {
@@ -537,6 +532,7 @@ import {
   ArrowBack,
   ExpandLess,
   ExpandMore,
+  Home,
   KeyboardArrowDownOutlined,
   MenuTwoTone,
   Search,
@@ -549,6 +545,17 @@ import classNames from "classnames";
 import axiosInstance from "../../Config/axios";
 import { API_URLS } from "../../Config/API_URLS";
 import { useStore } from "../../Hooks";
+import {
+  AccountCircle,
+  Favorite,
+  KeyboardArrowUp,
+  ShoppingBag,
+} from "@mui/icons-material";
+
+import SignIn from "../../Authentication/SignInPage";
+import AddToCart from "../Headers/AddToCart";
+// import { FaCartShopping } from "react-icons/fa6";
+// import { FaUserAlt } from "react-icons/fa";
 
 const Headers = () => {
   const [open, setOpen] = useState(false);
@@ -759,7 +766,7 @@ const Headers = () => {
         }
 
         .nav-item::after {
-          content: '';
+          content: "";
           position: absolute;
           bottom: 0;
           left: 50%;
@@ -820,7 +827,7 @@ const Headers = () => {
           </span>
 
           {/* Search Bar */}
-          <span className="glass-search !rounded-full py-2.5 px-4 lg:flex justify-between items-center gap-3 min-w-[300px] lg:min-w-[400px]">
+          <span className="glass-search !rounded-full py-2.5 px-4 flex justify-between items-center gap-3 min-w-[300px] lg:min-w-[400px]">
             <input
               className="search-input flex-1 outline-none bg-transparent text-sm"
               type="text"
@@ -860,51 +867,76 @@ const Headers = () => {
                 </span>
 
                 <div className="overflow-y-auto !max-h-[350px]">
-                  {not ? (
-                    serchProduct?.map((item, index) => {
-                      return (
-                        <ListItemButton
-                          key={item.variant_id}
-                          ref={listEndRef}
-                          id={item.variant_id}
-                          onClick={() => {
-                            navigate(`/product/${item.id}/${item.variant_id}`);
-                            setNot(false);
-                          }}
-                          className={classNames(
-                            "glass-item !py-3 !px-4",
-                            activeItem === index && "!bg-blue-500/20"
-                          )}
-                          selected={activeItem === index}
-                        >
-                          <ListItemIcon>
-                            <img
-                              src={item.variant_image || item.image}
-                              alt=""
-                              className="h-12 w-12 rounded object-cover"
-                            />
-                          </ListItemIcon>
-                          <span className="flex flex-col text-white">
-                            <span className="text-sm font-medium">
-                              {item.variant_name}
+                  {not
+                    ? serchProduct?.map((item, index) => {
+                        return (
+                          <ListItemButton
+                            key={item.variant_id}
+                            ref={listEndRef}
+                            id={item.variant_id}
+                            onClick={() => {
+                              navigate(
+                                `/product/${item.id}/${item.variant_id}`
+                              );
+                              setNot(false);
+                            }}
+                            className={classNames(
+                              "glass-item !py-3 !px-4",
+                              activeItem === index && "!bg-blue-500/20"
+                            )}
+                            selected={activeItem === index}
+                          >
+                            <ListItemIcon>
+                              <img
+                                src={item.variant_image || item.image}
+                                alt=""
+                                className="h-12 w-12 rounded object-cover"
+                              />
+                            </ListItemIcon>
+                            <span className="flex flex-col text-white">
+                              <span className="text-sm font-medium">
+                                {item.variant_name}
+                              </span>
+                              <span className="text-xs text-gray-400">
+                                {item.brand_name}
+                              </span>
                             </span>
-                            <span className="text-xs text-gray-400">
-                              {item.brand_name}
-                            </span>
-                          </span>
-                        </ListItemButton>
-                      );
-                    })
-                  ) : null}
+                          </ListItemButton>
+                        );
+                      })
+                    : null}
                 </div>
               </List>
             )}
           </span>
 
+          <span className="hidden lg:flex items-center gap-12    ">
+            {/* <Home
+              onClick={() => navigate("/")}
+              className="cursor-pointer hover:text-blue-400 !text-[27px]"
+            /> */}
+
+            <Favorite
+              onClick={() => navigate("/wish-list")}
+              className="cursor-pointer text-white hover:text-blue-400 !text-[27px]"
+            />
+            {/* Add To Card */}
+            <AddToCart
+              iconColor="text-white"
+              from={"Header"}
+              className="text-white  !text-[26px]  "
+            />
+
+            {/* SignIn */}
+            <SignIn
+              className=" text-white  !text-[27px]"
+            />
+          </span>
+
           {/* Mobile Menu Icon */}
-          <span className="flex items-center gap-4 lg:gap-7">
-            <IconButton onClick={() => setOpen(true)} className="lg:hidden">
-              <MenuTwoTone className="!text-white" />
+          <span className="flex items-center gap-4 lg:gap-7 lg:hidden">
+            <IconButton onClick={() => setOpen(true)} className="c">
+              <MenuTwoTone className="!text-white " />
             </IconButton>
 
             {/* Mobile Drawer */}
@@ -913,7 +945,7 @@ const Headers = () => {
               open={open}
               onClose={() => setOpen(false)}
               PaperProps={{
-                className: "glass-dropdown !w-80",
+                className: "glass-dropdown !w-80 ",
               }}
             >
               <CustomDiv className="h-full flex flex-col">
@@ -977,7 +1009,7 @@ const Headers = () => {
                     All Products
                   </ListItemButton>
 
-                  {mainCategoryList?.data?.data?.main_category_list?.map(
+         {mainCategoryList?.data?.data?.main_category_list?.map(
                     (product) => {
                       return (
                         <React.Fragment key={product.id}>
@@ -998,27 +1030,32 @@ const Headers = () => {
                           </ListItemButton>
                           <Collapse in={collapse.indexOf(product.id) !== -1}>
                             <List>
-                              {product?.sub_category_list?.map((subCategory) => {
-                                return (
-                                  <ListItemButton
-                                    key={subCategory.id}
-                                    className="glass-item !text-gray-300 !pl-8 !py-2"
-                                    onClick={() =>
-                                      navigate(`/${subCategory.subcategory}/page`, {
-                                        state: {
-                                          from: "category",
-                                          title: subCategory.category,
-                                          subcategory_id: subCategory.id,
-                                          page_id:
-                                            subCategory?.subcategory_pagedesignsetup,
-                                        },
-                                      })
-                                    }
-                                  >
-                                    {subCategory.subcategory}
-                                  </ListItemButton>
-                                );
-                              })}
+                              {product?.sub_category_list?.map(
+                                (subCategory) => {
+                                  return (
+                                    <ListItemButton
+                                      key={subCategory.id}
+                                      className="glass-item !text-gray-300 !pl-8 !py-2"
+                                      onClick={() =>
+                                        navigate(
+                                          `/${subCategory.subcategory}/page`,
+                                          {
+                                            state: {
+                                              from: "category",
+                                              title: subCategory.category,
+                                              subcategory_id: subCategory.id,
+                                              page_id:
+                                                subCategory?.subcategory_pagedesignsetup,
+                                            },
+                                          }
+                                        )
+                                      }
+                                    >
+                                      {subCategory.subcategory}
+                                    </ListItemButton>
+                                  );
+                                }
+                              )}
                             </List>
                           </Collapse>
                         </React.Fragment>

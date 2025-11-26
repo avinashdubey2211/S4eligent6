@@ -32,8 +32,12 @@ import { setThemeMode } from "../../../Redux/Actions/ThemeMode";
 import { useDispatch } from "react-redux";
 import emptyCart from "../../../Assets/cartGif.gif";
 import cartLogo from "../../../Assets/cart.svg";
+import { useNavigate } from "react-router-dom";
 
-export default function AddToCart({ from }) {
+
+export default function AddToCart({ from, iconColor = "text-white" }) {
+  const navigate = useNavigate();
+
   const [state, setState] = React.useState(false);
   const [cartItem, setCartItem] = useState(null);
   const [orderDetail, setOrderDetail] = useState([]);
@@ -71,7 +75,7 @@ export default function AddToCart({ from }) {
     [clearCartData]
   );
 
-  const emptyFunction = () => { };
+  const emptyFunction = () => {};
 
   useEffect(
     () => {
@@ -92,8 +96,8 @@ export default function AddToCart({ from }) {
         response.data.msg === "Data get Successfully"
           ? mutate({ cart_id: cart_id })
           : response.data.msg === "Something Wrong with the quanity !"
-            ? enqueueSnackbar("Product is Out-of-Stock", { variant: "error" })
-            : enqueueSnackbar(response.data.msg, { variant: "error" });
+          ? enqueueSnackbar("Product is Out-of-Stock", { variant: "error" })
+          : enqueueSnackbar(response.data.msg, { variant: "error" });
       })
       .catch((error) => {
         enqueueSnackbar("Something went wrong..!", { variant: "error" });
@@ -127,11 +131,9 @@ export default function AddToCart({ from }) {
     <>
       <span className="flex flex-col items-center justify-center">
         <BottomNavigationAction
-          icon={<ShoppingCart className="!text-[27px]" />}
+          icon={<ShoppingCart className={`!text-[27px]  ${iconColor} `} />}
           onClick={() =>
-            localStorage.getItem("Token")
-              ? setState(true)
-              : handleLogin()
+            localStorage.getItem("Token") ? setState(true) : handleLogin()
           }
         />
       </span>
@@ -175,11 +177,30 @@ export default function AddToCart({ from }) {
                       return (
                         <li className="flex flex-col pt-2 border-b-2 sm:flex-row sm:justify-between">
                           <CustomDiv className="flex w-full">
-                            <img
+                            {/* <img
                               className="flex-shrink-0 mx-2 object-cover w-24 md:w-28 lg:w-32 h-24 md:h-28 lg:h-32 border-transparent rounded outline-none bg-gray-500"
                               src={cart.variant_image}
                               alt=""
+                            /> */}
+                            <img
+                              className="flex-shrink-0 mx-2 object-cover w-24 md:w-28 lg:w-32 h-24 md:h-28 lg:h-32 border-transparent rounded outline-none bg-gray-500"
+                              src={
+                                cart.variant_image ||
+                                "https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=612x612&w=0&k=20&c=hnh2OZgQGhf0b46-J2z7aHbIWwq8HNlSDaNp2wn_iko="
+                              }
+                              alt=""
+                              onError={(e) => {
+                                e.target.src =
+                                  "https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=612x612&w=0&k=20&c=hnh2OZgQGhf0b46-J2z7aHbIWwq8HNlSDaNp2wn_iko=";
+                              }}
+                              //add navigate
+                              onClick={() =>
+                                navigate(
+                                  `/product/${cart.product_id}/${cart.variant_id}`
+                                )
+                              }
                             />
+
                             <CustomDiv className="flex flex-col justify-between w-full pb-1">
                               <CustomDiv className="flex justify-between w-full pb-2 space-x-2">
                                 <CustomDiv className="space-y-1">
@@ -303,7 +324,7 @@ export default function AddToCart({ from }) {
                       Delivery Charge:
                       <span className="font-semibold mx-2">
                         {data?.data?.data?.[0]?.cart_delivery_charges !==
-                          "Free" ? (
+                        "Free" ? (
                           <>₹{data?.data?.data?.[0]?.cart_delivery_charges}</>
                         ) : (
                           data?.data?.data?.[0]?.cart_delivery_charges

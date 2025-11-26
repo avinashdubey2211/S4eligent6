@@ -3,7 +3,6 @@ import axios from "axios";
 export const store_id = 23;
 // export const store_id = 4;
 
-
 const axiosInstance = axios.create({
   // baseURL: "http://192.168.1.73:9090/",
   baseURL: "https://mstore.bhaaraterp.com/",

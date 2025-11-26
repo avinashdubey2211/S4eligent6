@@ -33,17 +33,19 @@ import { profileFn } from "../../Services/Profile";
 import { useState } from "react";
 import LogoutDialog from "../../Shared/ConfirmLogout";
 import { AccountCircle } from "@mui/icons-material";
+// import { MdAccountCircle } from "react-icons/md";
+
 import { useStore } from "../../Hooks";
 
-export default function SignIn() {
+export default function SignIn({ iconColor = "text-white" }) {
   const [phone, setPhone] = React.useState(null);
   const [otp, setOTP] = React.useState("");
   const [page, setPage] = React.useState("login");
   const [openDialog, setOpenDialog] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { data: store } = useStore()
+  const { data: store } = useStore();
 
-  const StoreData = store?.data?.data
+  const StoreData = store?.data?.data;
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -67,11 +69,15 @@ export default function SignIn() {
   const handleLogin = (event) => {
     event.preventDefault();
     axiosInstance
-      .post(API_URLS.login, { mobile_number: phone }, {
-        headers: {
-          "store-id": 1
-        },
-      })
+      .post(
+        API_URLS.login,
+        { mobile_number: phone },
+        {
+          headers: {
+            "store-id": 1,
+          },
+        }
+      )
       .then((response) => {
         response.data.message === "OTP has been send to your mobile no.!" ? (
           <>
@@ -99,13 +105,11 @@ export default function SignIn() {
         device_id: "",
       })
       .then((response) => {
-
-
         window.ReactNativeWebView?.postMessage(
           JSON.stringify({
-            type: 'USER_INFO',
+            type: "USER_INFO",
             userId: response?.data?.user_id,
-            email: response?.data?.email
+            email: response?.data?.email,
           })
         );
 
@@ -145,7 +149,8 @@ export default function SignIn() {
             ? navigate("/user-account")
             : dispatch(setThemeMode(true))
         }
-        icon={<AccountCircle className="!text-[27px]" />}
+        // icon={<AccountCircle className={'!text-[27px] ${iconColor}'} />}
+        icon={<AccountCircle className={`!text-[27px]  ${iconColor} `} />}
       />
 
       <Modal
@@ -180,7 +185,11 @@ export default function SignIn() {
               <CustomDiv className="lg:w-1/2 flex flex-col justify-center items-center mx-auto p-5 px-[8%]">
                 {page === "login" ? (
                   <>
-                    <img src={StoreData?.store_logo} alt="" className="my-3 w-1/3" />
+                    <img
+                      src={StoreData?.store_logo}
+                      alt=""
+                      className="my-3 w-1/3"
+                    />
                     <Text className="text-2xl font-semibold my-5">Welcome</Text>
                     <Text className="text-sm">
                       Enter your mobile number to start shopping.
@@ -213,7 +222,11 @@ export default function SignIn() {
                   </>
                 ) : (
                   <>
-                    <img src={logo} alt="" className="my-3 w-1/2" />
+                    <img
+                      src={StoreData?.store_logo}
+                      alt=""
+                      className="my-3 w-1/2"
+                    />
                     <Text className="text-2xl font-semibold my-5">
                       Email Verification
                     </Text>

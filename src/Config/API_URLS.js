@@ -69,4 +69,6 @@ export const API_URLS = {
   allClearWishList: "api/store/clear-wishlist/",
   storedetail: "api/store/api-store-details-for-website/",
   page_ui: "page-design-setup-api/",
+  socialLinks: "socialmedia-link-api/", //
+  searchHistory: "api/search-history-from-redis-db/",
 };

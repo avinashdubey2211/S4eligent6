@@ -895,44 +895,63 @@ const CategorySubCategoryProducts = () => {
 
         if (groupKey === "product_varient") {
             return (
+              <div
+                key={index}
+                className="lg:px-8 flex  flex-wrap  gap-5 lg:py-3"
+              >
+                {/* <Slider {...settings}> */}
+                {itemsToShow.map((i) => (
+                  <div
+                    onClick={() =>
+                      navigate(
+                        `/product/${Number(i?.id)}/${Number(i.variant_id)}`
+                      )
+                    }
+                    className="w-40 border border-gray-200 rounded-md shadow-sm relative p-2 flex-shrink-0"
+                    key={index}
+                  >
+                    {/* Top Price Bar */}
+                    <div className="bg-red-500 text-white text-sm font-bold flex justify-center items-center border-t border-red-500 relative">
+                      ₹{i?.price}
+                      <div className="absolute w-full bottom-[-1.1rem] text-[12px] font-medium bg-yellow-300 border-b border-yellow-300 text-black text-center">
+                        MRP{" "}
+                        <span className="line-through">₹{i?.actual_price}</span>
+                      </div>
+                    </div>
 
-                <div key={index} className="lg:px-8 flex  flex-wrap  gap-5 lg:py-3">
-                    {/* <Slider {...settings}> */}
-                    {itemsToShow.map((i) => (
-                        <div onClick={() =>
-                            navigate(
-                                `/product/${Number(i?.id)}/${Number(i.variant_id)}`
-                            )
-                        } className="w-40 border border-gray-200 rounded-md shadow-sm relative p-2 flex-shrink-0" key={index}>
-                            {/* Top Price Bar */}
-                            <div className="bg-red-500 text-white text-sm font-bold flex justify-center items-center border-t border-red-500 relative">
-                                ₹{i?.price}
-                                <div className="absolute w-full bottom-[-1.1rem] text-[12px] font-medium bg-yellow-300 border-b border-yellow-300 text-black text-center">
-                                    MRP <span className="line-through">₹{i?.actual_price}</span>
-                                </div>
-                            </div>
+                    {/* Product Image */}
+                    <div className="relative p-2 pt-6">
+                      <img
+                        src={i?.image}
+                        alt="Product"
+                        className="rounded-md w-full h-28 object-cover transition-transform duration-300 hover:scale-105 hover:brightness-100"
+                        
+                                
+                        />
+                      <div className="absolute bottom-0 right-0 bg-green-600 text-white text-xs px-2 py-3 rounded-full font-semibold">
+                        {i?.discount_percent}% off
+                      </div>
+                    </div>
 
-                            {/* Product Image */}
-                            <div className="relative p-2 pt-6">
-                                <img
-                                    src={i?.image}
-                                    alt="Product"
-                                    className="rounded-md w-full h-28 object-cover transition-transform duration-300 hover:scale-105 hover:brightness-100"
-                                />
-                                <div className="absolute bottom-0 right-0 bg-green-600 text-white text-xs px-2 py-3 rounded-full font-semibold">
-                                    {i?.discount_percent}% off
-                                </div>
-                            </div>
+                    {/* Product Info */}
+                    <div className="px-2">
+                      <p className="text-sm font-medium line-clamp-1">
+                        {i?.variant_name}
+                      </p>
 
-                            {/* Product Info */}
-                            <div className="px-2">
-                                <p className="text-sm font-medium line-clamp-1">{i?.variant_name}</p>
-
-                                <div className="w-full flex items-center  justify-between">
-                                    {/* <p className="text-xs text-gray-500">{i?.quantity}</p> */}
-                                    <p className={`text-xs  font-semibold ${i?.stock_sataus === "Out Of Stock" ? "text-red-500" : "text-green-500"}`}>{i?.stock_sataus}</p>
-                                </div>
-                                {/* <button
+                      <div className="w-full flex items-center  justify-between">
+                        {/* <p className="text-xs text-gray-500">{i?.quantity}</p> */}
+                        <p
+                          className={`text-xs  font-semibold ${
+                            i?.stock_sataus === "Out Of Stock"
+                              ? "text-red-500"
+                              : "text-green-500"
+                          }`}
+                        >
+                          {i?.stock_sataus}
+                        </p>
+                      </div>
+                      {/* <button
                                     onClick={(event) => {
                                         event.stopPropagation();
                                         const token = localStorage.getItem("shubhgatoken");
@@ -955,10 +974,11 @@ const CategorySubCategoryProducts = () => {
                                     className={`w-full mt-2 mb-2 border border-pink-600 text-pink-600 text-sm rounded py-1 hover:bg-pink-50  `}>
                                     Add
                                 </button> */}
-                            </div>
-                        </div>))}
-                    {/* </Slider> */}
-                </div>
+                    </div>
+                  </div>
+                ))}
+                {/* </Slider> */}
+              </div>
             );
         }
 
@@ -1058,7 +1078,10 @@ const CategorySubCategoryProducts = () => {
                                     src={i?.product_image}
                                     alt="Product"
                                     className="rounded-md w-full h-28 object-cover transition-transform duration-300 hover:scale-105 hover:brightness-100"
-                                />
+                                    
+                                    
+
+                                    />
                                 <div className="absolute bottom-0 right-0 bg-green-600 text-white text-xs px-2 py-3 rounded-full font-semibold">
                                     {i?.discount_percent}% off
                                 </div>

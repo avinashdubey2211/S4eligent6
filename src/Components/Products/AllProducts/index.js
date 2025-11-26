@@ -936,26 +936,27 @@ const AllProducts = () => {
         category_id: categoryId || state?.category_id || "",
         sub_category_id: state?.subCategory || "",
         brand_id: brandId?.value,
+        product: state?.product_id,
         max_price:
           state?.priceRange === "2"
             ? 100
             : state?.priceRange === "3"
-              ? 200
-              : state?.priceRange === "4"
-                ? 500
-                : state?.priceRange === "5"
-                  ? 100000
-                  : "",
+            ? 200
+            : state?.priceRange === "4"
+            ? 500
+            : state?.priceRange === "5"
+            ? 100000
+            : "",
         min_price:
           state?.priceRange === "2"
             ? 1
             : state?.priceRange === "3"
-              ? 100
-              : state?.priceRange === "4"
-                ? 200
-                : state?.priceRange === "5"
-                  ? 500
-                  : "",
+            ? 100
+            : state?.priceRange === "4"
+            ? 200
+            : state?.priceRange === "5"
+            ? 500
+            : "",
         rating: rating,
         page: 1,
         color_id: "",
@@ -998,18 +999,18 @@ const AllProducts = () => {
         client.refetchQueries("wishList");
         response.data.msg === "Data get Successfully"
           ? allFilters({
-            page: page,
-            category_id: "",
-            sub_category_id: "",
-            brand_id: "",
-            color_id: "",
-            max_price: "",
-            min_price: "",
-            rating: "",
-          })
+              page: page,
+              category_id: "",
+              sub_category_id: "",
+              brand_id: "",
+              color_id: "",
+              max_price: "",
+              min_price: "",
+              rating: "",
+            })
           : response.data.msg === "Something Wrong with the quanity !"
-            ? enqueueSnackbar("Product is Out-of-Stock", { variant: "error" })
-            : enqueueSnackbar(response.data.msg, { variant: "success" });
+          ? enqueueSnackbar("Product is Out-of-Stock", { variant: "error" })
+          : enqueueSnackbar(response.data.msg, { variant: "success" });
         enqueueSnackbar(response.data.msg, { variant: "success" });
         setInWhislist(false);
       })
@@ -1081,7 +1082,7 @@ const AllProducts = () => {
         }
 
         .shimmer::after {
-          content: '';
+          content: "";
           position: absolute;
           top: 0;
           left: -100%;
@@ -1161,7 +1162,9 @@ const AllProducts = () => {
               <CustomDiv className="max-h-[calc(100vh-200px)] overflow-y-auto">
                 {/* Sort Section */}
                 <Accordion defaultExpanded className="!shadow-none">
-                  <AccordionSummary expandIcon={<ExpandMore className="text-white" />}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMore className="text-white" />}
+                  >
                     <Text className="font-semibold text-white">Sort By</Text>
                   </AccordionSummary>
                   <AccordionDetails className="!pt-0">
@@ -1206,7 +1209,9 @@ const AllProducts = () => {
 
                 {/* Categories Section */}
                 <Accordion defaultExpanded className="!shadow-none">
-                  <AccordionSummary expandIcon={<ExpandMore className="text-white" />}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMore className="text-white" />}
+                  >
                     <Text className="font-semibold text-white">Categories</Text>
                   </AccordionSummary>
                   <AccordionDetails className="!pt-0">
@@ -1238,7 +1243,9 @@ const AllProducts = () => {
 
                 {/* Price Range Section */}
                 <Accordion defaultExpanded className="!shadow-none">
-                  <AccordionSummary expandIcon={<ExpandMore className="text-white" />}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMore className="text-white" />}
+                  >
                     <Text className="font-semibold text-white">
                       Price Range
                     </Text>
@@ -1445,23 +1452,17 @@ const AllProducts = () => {
                     <FormControlLabel
                       value="3"
                       control={<Radio />}
-                      label={
-                        <Text className="text-gray-300">₹100 - ₹200</Text>
-                      }
+                      label={<Text className="text-gray-300">₹100 - ₹200</Text>}
                     />
                     <FormControlLabel
                       value="4"
                       control={<Radio />}
-                      label={
-                        <Text className="text-gray-300">₹200 - ₹500</Text>
-                      }
+                      label={<Text className="text-gray-300">₹200 - ₹500</Text>}
                     />
                     <FormControlLabel
                       value="5"
                       control={<Radio />}
-                      label={
-                        <Text className="text-gray-300">Above ₹500</Text>
-                      }
+                      label={<Text className="text-gray-300">Above ₹500</Text>}
                     />
                   </RadioGroup>
                 </FormControl>
@@ -1499,11 +1500,22 @@ const AllProducts = () => {
                   >
                     {/* Product Image */}
                     <CustomDiv className="relative overflow-hidden bg-gray-900">
-                      <img
+                      {/* <img
                         src={product.variant_image || product.image}
                         alt={product.variant_name}
                         className="product-image w-full h-48 object-cover"
+                        
+                      /> */}
+                      <img
+                        src={product?.variant_image || product?.image || ""}
+                        alt={product?.variant_name}
+                        className="product-image w-full h-53 object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src =
+                            "https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=612x612&w=0&k=20&c=hnh2OZgQGhf0b46-J2z7aHbIWwq8HNlSDaNp2wn_iko=";
+                        }}
                       />
+
                       {product.discount_percent !== "0.0" && (
                         <Chip
                           label={`${product.discount_percent}% OFF`}
@@ -1518,8 +1530,8 @@ const AllProducts = () => {
                             if (localStorage.getItem("token")) {
                               product.whishlist_status === "yes"
                                 ? enqueueSnackbar(
-                                  "Product is already in wishlist"
-                                ) && e.stopPropagation()
+                                    "Product is already in wishlist"
+                                  ) && e.stopPropagation()
                                 : handleWishList(product?.variant_id, e);
                             } else {
                               handleLogin(e);
@@ -1578,9 +1590,7 @@ const AllProducts = () => {
                             ? addToCart(e, product.variant_id)
                             : handleLogin(e)
                         }
-                        disabled={
-                          isCart || product.stock_sataus !== "In-stock"
-                        }
+                        disabled={isCart || product.stock_sataus !== "In-stock"}
                         className="w-full !py-2 !bg-blue-500 hover:!bg-blue-600 !text-white !rounded-lg !font-medium !text-sm disabled:!bg-gray-700 disabled:!text-gray-500"
                       >
                         {isCart ? (
@@ -1626,8 +1636,10 @@ const AllProducts = () => {
               </CustomDiv>
             )}
           </CustomDiv>
+          
         </CustomDiv>
       </CustomDiv>
+     
     </CustomDiv>
   );
 };

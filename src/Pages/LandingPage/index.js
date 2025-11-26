@@ -757,7 +757,6 @@
 
 // export default LandingPage;
 
-
 import React, { useState, useEffect } from "react";
 import CustomDiv from "../../Shared/CustomDiv";
 import { Carousel } from "react-responsive-carousel";
@@ -773,10 +772,35 @@ import { allFiltersFn } from "../../Services/AllFilters/index,";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../Config/axios";
 import { API_URLS } from "../../Config/API_URLS";
+
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+// social media
+import { SocialMedia } from "../../Services/SocialMedia/Index";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+  // faFacebook,
+  faYoutube,
+  faWhatsapp,
+  faSnapchat,
+  faLinkedin,
+  faTiktok,
+  faTelegram,
+} from "@fortawesome/free-brands-svg-icons";
+import { productSortBy } from "../../Services/productSortBy";
 
 const LandingPage = () => {
   const [open, setOpen] = useState(null);
+  // const [gallery, setGallery] = useState([]); // social media
+  const [socialLinks, setSocialLinks] = useState({});
+
+  const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState([]);
+
   const [data, setData] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [banners, setBanners] = useState([]);
@@ -807,9 +831,6 @@ const LandingPage = () => {
   const Product = () => {
     const reqBody = { add_quantity: 1 };
     axiosInstance.post(API_URLS.productList, reqBody).then((response) => {
-
-
-
       setData1(response.data.data.product_variant_list);
     });
   };
@@ -819,6 +840,7 @@ const LandingPage = () => {
     testimonial();
     banner();
     Product();
+    productList();
     allFilters({
       category_id: 5,
       sub_category_id: "",
@@ -831,6 +853,50 @@ const LandingPage = () => {
     setTimeout(() => setIsVisible(true), 100);
     // eslint-disable-next-line
   }, []);
+
+  // ================= PRODUCT LIST API =================
+  const productList = () => {
+    axiosInstance
+      .post(API_URLS.productList, { page: 1, limit: 40 })
+      .then((res) => {
+        const list = res?.data?.data?.product_list || [];
+        setProducts(list);
+      })
+      .catch((err) => console.log("Product List Error:", err));
+  };
+
+  // API call with filter
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await productSortBy({
+          sortBy: "price",
+          order: "asc",
+        });
+
+        // Correct: actual array is inside product_list
+        setProduct(res?.data?.product_list || []);
+      } catch (err) {
+        console.log("Error:", err.message);
+        setProduct([]);
+      }
+    };
+
+    fetchProduct();
+  }, []);
+
+  //  SocialMedia
+
+  // API CALL HERE
+  useEffect(() => {
+    SocialMedia()
+      .then((res) => {
+        setSocialLinks(res?.data?.data);
+      })
+      .catch((err) => console.log("Error:", err));
+  }, []);
+
+  console.log(socialLinks, "links");
 
   return (
     <CustomDiv className="flex flex-col w-full bg-black min-h-screen">
@@ -927,7 +993,7 @@ const LandingPage = () => {
         }
 
         .shimmer::after {
-          content: '';
+          content: "";
           position: absolute;
           top: 0;
           left: -100%;
@@ -985,9 +1051,15 @@ const LandingPage = () => {
 
         /* Grid Line Effect */
         .grid-line {
-          background-image:
-            linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+          background-image: linear-gradient(
+              rgba(59, 130, 246, 0.03) 1px,
+              transparent 1px
+            ),
+            linear-gradient(
+              90deg,
+              rgba(59, 130, 246, 0.03) 1px,
+              transparent 1px
+            );
           background-size: 50px 50px;
         }
       `}</style>
@@ -1017,6 +1089,170 @@ const LandingPage = () => {
         </Carousel>
       </CustomDiv>
 
+      {/* product list */}
+      {/* <div
+        className={`w-full ${
+          isVisible ? "opacity-100" : "opacity-0"
+        } transition-opacity duration-500`}
+      >
+        <h2 className="text-2xl font-bold p-4">All Products</h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-2 pb-6">
+          {products.map((p) => (
+            <div
+              key={p.id}
+              className="bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-100 
+          transition-all duration-300 overflow-hidden group cursor-pointer flex flex-col"
+              onClick={() =>
+                navigate(`/all-products`, { state: { product_id: p.id } })
+              }
+            >
+              <div className="relative w-full h-52 overflow-hidden rounded-t-2xl bg-gray-100">
+                <img
+                  src={p.variant_image || p.image}
+                  alt={p.title}
+                  className="w-fit h-fit object-cover group-hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    e.target.src =
+                      "https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg";
+                  }}
+                />
+
+                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+              </div>
+
+              <div className="p-4 flex-1 flex flex-col justify-between">
+                <h3 className="font-semibold text-gray-900 text-sm line-clamp-2 mb-2">
+                  {p.title}
+                </h3>
+
+              
+
+                <button className="mt-3 w-full bg-black text-white py-2 rounded-xl text-sm font-medium shadow-md hover:bg-gray-800 active:scale-95 transition-all">
+                  View Details
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div> */}
+      <div
+        className={`w-full py-4 lg:px-10 px-2 ${
+          isVisible ? "opacity-100" : "opacity-0"
+        } transition-opacity duration-500`}
+      >
+        {/* <h2 className="text-2xl font-bold p-4 text-red-700"> Products List</h2> */}
+
+        <div
+          className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-4 
+                  gap-7  pb-10"
+        >
+          {products.map((p) => (
+            <div
+              key={p.id}
+              onClick={() =>
+                navigate(`/all-products`, { state: { product_id: p.id } })
+              }
+              className="bg-white rounded-lg md:rounded-3xl lg:rounded-2xl 2xl:rounded-3xl   sm:rounded-xl      
+        shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+        hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]
+        transition-all duration-500 cursor-pointer overflow-hidden group 
+        flex flex-col"
+            >
+              {/* ================= IMAGE ================= */}
+              {/* <div className="relative w-full h-[360px]  2xl:h-[730px]  bg-gray-100 overflow-hidden"> */}
+              <div
+                className="relative w-full 
+     h-[180px]     
+     sm:h-[160px]  
+     md:h-[330px]   
+     lg:h-[250px]   
+  
+     xl:h-[360px]
+     2xl:h-[730px]  
+     bg-gray-100 overflow-hidden"
+              >
+                <img
+                  src={p.variant_image || p.image}
+                  alt={p.title}
+                  className="w-full h-full object-cover 
+    group-hover:scale-105 transition-transform duration-700 ease-out"
+                  onError={(e) => {
+                    e.target.src =
+                      "https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg";
+                  }}
+                />
+              </div>
+
+              {/* ================= CONTENT ================= */}
+              {/* <div className="p-5 flex flex-col flex-1">
+                TITLE
+                <h3 className="font-semibold text-gray-900 text-base line-clamp-2 min-h-[48px]">
+                  {p.title}
+                </h3>
+
+                OPTIONAL PRICE (IF YOU WANT)
+                <p className="text-[15px] text-green-700 font-bold mt-2">
+            ₹{p.price}
+          </p>
+
+                BUTTON
+                <button
+                  className="mt-auto w-full bg-blue-600 text-white py-2.5 rounded-xl 
+            text-sm font-medium shadow hover:bg-blue-700 active:scale-95 
+            transition-all"
+                >
+                  View Details
+                </button>
+              </div> */}
+              <div className="p-3 sm:p-4 md:p-5 flex flex-col flex-1">
+                {/* TITLE */}
+                {/* <h3
+                  className="
+        font-semibold text-gray-900 
+        text-sm sm:text-base       
+        line-clamp-2 
+        min-h-[36px] sm:min-h-[48px] 
+      "
+                >
+                  {p.title}
+                </h3> */}
+                <h3
+                  className="
+    font-semibold text-gray-900 
+    text-sm          
+    sm:text-xs            
+    md:text-sm           
+    lg:text-base         
+    2xl:text-[25px]          
+    line-clamp-2 
+    min-h-[28px] sm:min-h-[36px] md:min-h-[48px]
+  "
+                >
+                  {p.title}
+                </h3>
+
+                {/* BUTTON */}
+                <button
+                  className="
+    mt-auto w-full 
+    bg-gray-600 text-white 
+    py-2 text-xs sm:text-xs md:text-sm lg:text-sm 2xl:text-base    
+    rounded-lg sm:rounded-xl 
+    font-medium shadow 
+    hover:bg-gray-600 active:scale-95 
+    transition-all
+  "
+                >
+                  View Details
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Title Section */}
       <CustomDiv
         className={classNames(
@@ -1038,7 +1274,7 @@ const LandingPage = () => {
       </CustomDiv>
 
       {/* Product Grid */}
-      <CustomDiv className="px-4 md:px-8 lg:px-16 xl:px-24 mb-20 grid-line">
+      <CustomDiv className="px-4 md:px-8 lg:px-16 xl:px-24 mb-20 grid-line ">
         <Grid className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
           {data1?.slice(0, 24).map((product, idx) => (
             <CustomDiv
@@ -1055,11 +1291,21 @@ const LandingPage = () => {
               }
             >
               <CustomDiv className="relative overflow-hidden aspect-square bg-gray-900">
-                <img
-                  src={product.variant_image}
+                {/* <img
+                  src={product.variant_image  }
                   alt={product.product_variant_name}
                   className="product-image w-full h-full object-cover"
+                /> */}
+                <img
+                  src={product?.variant_image || ""}
+                  alt={product.product_variant_name}
+                  className="product-image w-full h-full object-cover"
+                  onError={(e) =>
+                    (e.target.src =
+                      "https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=612x612&w=0&k=20&c=hnh2OZgQGhf0b46-J2z7aHbIWwq8HNlSDaNp2wn_iko= ")
+                  }
                 />
+
                 <CustomDiv className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
 
                 {/* NEW Badge */}
@@ -1101,12 +1347,142 @@ const LandingPage = () => {
               </CustomDiv>
             </CustomDiv>
           ))}
-
         </Grid>
       </CustomDiv>
 
+      {/*  filter  */}
+      <div className="p-4">
+        <Text className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl font-bold gradient-text tracking-tight text-center mt-6 mb-4">
+          MOST VIEW PRODUCT
+        </Text>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:px-8 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-4 ">
+          {product.length > 0 ? (
+            product.map((p) => (
+              <div
+                key={p.id}
+                // className="border rounded-lg shadow hover:shadow-lg transition bg-white p-2"
+                // style={{ width: "100%", maxWidth: "260px", margin: "auto" }}
+                className="border rounded-lg shadow hover:shadow-lg transition bg-white p-2  w-full"
+                style={{
+                  maxWidth: "100%", // Let it grow naturally in grid
+                }}
+                onClick={() => navigate(`/product/${p.id}/${p.variant_id}`)}
+              >
+                {/* Image Section */}
+                <div className="relative w-full aspect-[3/3] overflow-hidden rounded-lg">
+                  <img
+                    src={p?.variant_image || p?.image}
+                    alt={p?.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Wishlist */}
+                  {/* <button className="absolute top-2 right-2 text-white bg-black/50 rounded-full p-1 text-sm hover:bg-black">
+                    {p.whishlist_status === "Yes" ? "❤️" : "🤍"}
+                  </button> */}
+
+                  {/* Discount Badge */}
+                  {Number(p.discount_percent) > 0 && (
+                    <span className="absolute top-0 left-0 bg-red-600 text-white text-xs px-2 py-1 rounded-br-lg">
+                      {p.discount_percent}% OFF
+                    </span>
+                  )}
+                </div>
+
+                {/* Title */}
+                {/* <h3 className="text-sm  font-semibold mt-2 truncate">
+                  {p.title}
+                </h3> */}
+                <h3
+                  className="
+      font-semibold mt-2 truncate
+      text-[12px] sm:text-[14px] md:text-sm lg:text-base xl:text-lg 2xl:text-xl
+    "
+                >
+                  {p.title}
+                </h3>
+
+                {/* Brand */}
+                {/* {p.brand_name && (
+                  <p className="text-xs text-gray-500">{p.brand_name}</p>
+                )} */}
+
+                {/* Price */}
+                {/* <div className="flex items-center gap-2 mt-1">
+                  <span className="text-base font-bold text-green-600">
+                    ₹{p.price}
+                  </span>
+                  {Number(p.actual_price) > 0 && (
+                    <span className="line-through text-gray-400 text-sm">
+                      ₹{p.actual_price}
+                    </span>
+                  )}
+                </div> */}
+                <div className="flex items-center gap-2 mt-1">
+                  <span
+                    className="
+        font-bold text-green-600
+        text-[12px] sm:text-[14px] md:text-sm lg:text-base xl:text-lg 2xl:text-xl
+      "
+                  >
+                    ₹{p.price}
+                  </span>
+                  {Number(p.actual_price) > 0 && (
+                    <span
+                      className="
+          line-through text-gray-400
+          text-[10px] sm:text-[12px] md:text-sm lg:text-base xl:text-lg 2xl:text-xl
+        "
+                    >
+                      ₹{p.actual_price}
+                    </span>
+                  )}
+                </div>
+
+                {/* Stock Status */}
+                {/* <p
+                  className={`text-xs mt-1 ${
+                    p.stock_sataus === "In-stock"
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }`}
+                >
+                  {p.stock_sataus}
+                </p> */}
+                <p
+                  className={`
+      mt-1
+      text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl
+      ${p.stock_sataus === "In-stock" ? "text-green-600" : "text-red-600"}
+    `}
+                >
+                  {p.stock_sataus}
+                </p>
+                {/* Button */}
+                {/* <button className="w-full mt-2 bg-blue-600 text-white py-1 rounded hover:bg-blue-700 text-sm">
+                  Add to Cart
+                </button> */}
+                <button
+                  className="
+      w-full mt-2 py-1 rounded text-white
+      bg-gray-600 
+      text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl
+    "
+                >
+                  Add to Cart
+                </button>
+              </div>
+            ))
+          ) : (
+            <p className="col-span-full text-center text-gray-500">
+              No products found.
+            </p>
+          )}
+        </div>
+      </div>
+
       {/* Offers Bar */}
-      <CustomDiv className="glass-card py-8 my-16 overflow-hidden mx-4 md:mx-8 rounded-2xl">
+      <CustomDiv className="glass-card py-8 my-16 overflow-hidden mx-4 md:mx-8 rounded-2xl ">
         <CustomDiv className="flex gap-6 animate-scroll whitespace-nowrap px-4">
           {[...Array(2)].map((_, setIdx) => (
             <React.Fragment key={setIdx}>
@@ -1194,7 +1570,7 @@ const LandingPage = () => {
       </CustomDiv>
 
       {/* Instagram Gallery */}
-      <CustomDiv className="mb-20 px-4">
+      {/* <CustomDiv className="mb-20 px-4 ">
         <CustomDiv className="max-w-4xl mx-auto text-center space-y-3 mb-12">
           <Text className="text-3xl md:text-4xl font-bold text-white">
             Follow Us On Instagram
@@ -1204,7 +1580,7 @@ const LandingPage = () => {
           </Text>
         </CustomDiv>
 
-        <CustomDiv className="flex overflow-x-auto gap-4 pb-4 hide-scroll px-4">
+        <CustomDiv className="flex overflow-x-auto gap-4 pb-4  px-4">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((item) => (
             <CustomDiv
               key={item}
@@ -1237,6 +1613,234 @@ const LandingPage = () => {
             </CustomDiv>
           ))}
         </CustomDiv>
+      </CustomDiv> */}
+      {/* <CustomDiv className="flex overflow-x-auto gap-4 pb-4 px-4">
+        {[...Array(13)].map((_, index) => {
+          const icons = [
+            {
+              name: "Facebook",
+              icon: faFacebook,
+              link: socialLinks?.fb_url,
+              color: "#1877F2",
+            },
+            {
+              name: "YouTube",
+              icon: faYoutube,
+              link: socialLinks?.youtube_url,
+              color: "#FF0000",
+            },
+            {
+              name: "WhatsApp",
+              icon: faWhatsapp,
+              link: socialLinks?.whatsapp_url,
+              color: "#25D366",
+            },
+            {
+              name: "Snapchat",
+              icon: faSnapchat,
+              link: socialLinks?.snapchat_url,
+              color: "#FFFC00",
+            },
+            {
+              name: "LinkedIn",
+              icon: faLinkedin,
+              link: socialLinks?.LinkedIn_url,
+              color: "#0077B5",
+            },
+            {
+              name: "TikTok",
+              icon: faTiktok,
+              link: socialLinks?.TikTok_url,
+              color: "#000000",
+            },
+          ];
+
+          const showIcon = index < 6; 
+          const iconData = showIcon ? icons[index] : null;
+
+          return (
+            <CustomDiv
+              key={index}
+              className="relative flex-shrink-0 w-48 h-48 md:w-60 md:h-60 lg:w-72 lg:h-72 glass-card rounded-2xl overflow-hidden group cursor-pointer"
+              onClick={() =>
+                iconData?.link && window.open(iconData.link, "_blank")
+              }
+            >
+              <img
+                src={`https://images.unsplash.com/photo-1683721003111-070bcc053d8b?fm=jpg&q=60&w=3000`}
+                alt=""
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+
+              <CustomDiv className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+                {showIcon && iconData ? (
+                  <FontAwesomeIcon
+                    icon={iconData.icon}
+                    className="text-4xl transition-transform duration-500 hover:scale-125"
+                    style={{ color: iconData.color }}
+                  />
+                ) : null}
+              </CustomDiv>
+            </CustomDiv>
+          );
+        })}
+      </CustomDiv> */}
+
+      {/* <CustomDiv className="flex overflow-x-auto gap-4 pb-4 px-8 py-8">
+        {[
+          {
+            name: "Facebook",
+            icon: faFacebook,
+            link: socialLinks?.fb_url,
+            color: "#1877F2",
+          },
+          {
+            name: "YouTube",
+            icon: faYoutube,
+            link: socialLinks?.youtube_url,
+            color: "#FF0000",
+          },
+          {
+            name: "WhatsApp",
+            icon: faWhatsapp,
+            link: socialLinks?.whatsapp_url,
+            color: "#25D366",
+          },
+          {
+            name: "Snapchat",
+            icon: faSnapchat,
+            link: socialLinks?.snapchat_url,
+            color: "#FFFC00",
+          },
+          {
+            name: "LinkedIn",
+            icon: faLinkedin,
+            link: socialLinks?.LinkedIn_url,
+            color: "#0077B5",
+          },
+
+          {
+            name: "Instagram",
+            icon: faInstagram,
+            link: socialLinks?.insta_url,
+            color: "#E1306C",
+          },
+          {
+            name: "Twitter",
+            icon: faTwitter,
+            link: socialLinks?.twitter_url,
+            color: "#1DA1F2",
+          },
+          {
+            name: "Telegram",
+            icon: faTelegram,
+            link: socialLinks?.Telegram_url,
+            color: "#0088cc",
+          },
+        ].map((iconData, index) => (
+          <CustomDiv
+            key={index}
+            className="group relative w-28 h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 flex-shrink-0
+             cursor-pointer rounded-xl flex items-center justify-center shadow-lg transition-transform 
+             duration-300 hover:scale-105"
+            onClick={
+              () => iconData?.link && window.open(iconData.link, "_blank")
+
+              // window.open("https://www.facebook.com/", "_blank")
+            }
+            style={{ backgroundColor: "#ffffff" }}
+          >
+            <FontAwesomeIcon
+              icon={iconData.icon}
+              className="text-4xl md:text-5xl lg:text-6xl"
+              style={{ color: iconData.color }}
+            />
+
+            <div
+              className="absolute inset-0 rounded-xl pointer-events-none 
+            group-hover:shadow-[0_0_20px_#ffffff] transition-shadow duration-300"
+            ></div>
+          </CustomDiv>
+        ))}
+      </CustomDiv> */}
+
+      <CustomDiv className="flex overflow-x-auto gap-4 pb-4 px-8 py-8">
+        {[
+          {
+            name: "Facebook",
+            icon: faFacebook,
+            link: socialLinks?.fb_url,
+            color: "#1877F2",
+          },
+          {
+            name: "YouTube",
+            icon: faYoutube,
+            link: socialLinks?.youtube_url,
+            color: "#FF0000",
+          },
+          {
+            name: "WhatsApp",
+            icon: faWhatsapp,
+            link: socialLinks?.whatsapp_url,
+            color: "#25D366",
+          },
+          {
+            name: "Snapchat",
+            icon: faSnapchat,
+            link: socialLinks?.snapchat_url,
+            color: "#FFFC00",
+          },
+          {
+            name: "LinkedIn",
+            icon: faLinkedin,
+            link: socialLinks?.LinkedIn_url,
+            color: "#0077B5",
+          },
+          {
+            name: "Instagram",
+            icon: faInstagram,
+            link: socialLinks?.insta_url,
+            color: "#E1306C",
+          },
+          {
+            name: "Twitter",
+            icon: faTwitter,
+            link: socialLinks?.twitter_url,
+            color: "#1DA1F2",
+          },
+          {
+            name: "Telegram",
+            icon: faTelegram,
+            link: socialLinks?.Telegram_url,
+            color: "#0088cc",
+          },
+        ].map((iconData, index) => (
+          <CustomDiv
+            key={index}
+            className="group relative w-28 h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 flex-shrink-0
+            cursor-pointer rounded-xl flex items-center justify-center shadow-lg transition-transform 
+            duration-300 hover:scale-105"
+            onClick={() => {
+              console.log("Clicked → ", iconData.name, iconData.link);
+
+              if (iconData?.link) {
+                window.open(iconData.link, "_blank");
+              }
+            }}
+            style={{ backgroundColor: "#ffffff" }}
+          >
+            <FontAwesomeIcon
+              icon={iconData.icon}
+              className="text-4xl md:text-5xl lg:text-6xl"
+              style={{ color: iconData.color }}
+            />
+
+            <div
+              className="absolute inset-0 rounded-xl pointer-events-none 
+              group-hover:shadow-[0_0_20px_#ffffff] transition-shadow duration-300"
+            ></div>
+          </CustomDiv>
+        ))}
       </CustomDiv>
     </CustomDiv>
   );

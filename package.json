@@ -33,7 +33,7 @@
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
-    "react-to-pdf": "^0.0.14",
+    "react-to-pdf": "^2.0.3",
     "react-toastify": "^11.0.5",
     "redux": "^4.2.1",
     "slick-carousel": "^1.8.1",

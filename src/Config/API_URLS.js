@@ -71,4 +71,5 @@ export const API_URLS = {
   page_ui: "page-design-setup-api/",
   socialLinks: "socialmedia-link-api/", //
   searchHistory: "api/search-history-from-redis-db/",
+  BlogPage : "blog-api/",
 };

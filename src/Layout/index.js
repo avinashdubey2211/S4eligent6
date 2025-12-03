@@ -11,6 +11,8 @@ import { Favorite, Home, KeyboardArrowUp } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import AddToCart from "../Shared/Headers/AddToCart";
 import SignIn from "../Authentication/SignInPage";
+
+
 import {
   FaWhatsapp,
   FaPhoneAlt,
@@ -86,7 +88,7 @@ const Layout = ({ theme, setTheme, component }) => {
             className="flex items-center justify-center gap-2 px-4 py-3  bg-gradient-to-b from-white to-[#e7e7e7] hover:shadow-lg transition"
           >
             <FaPhoneAlt className="text-blue-500 text-xl" />
-            <span className="hidden md:inline  text-gray-800">Talk To Us</span>
+            <span className="hidden md:inline  text-sm text-gray-800">Talk To Us</span>
           </a>
           {/* Instagram */}
           <a
@@ -206,9 +208,23 @@ const Layout = ({ theme, setTheme, component }) => {
           </div>
           <div>
             <h3 className="font-bold mb-2 text-base">Opportunities</h3>
+            <ul className="flex flex-col ">
             <a href="#" className="hover:underline text-gray-700 font-normal">
               Careers
             </a>
+             <a 
+              onClick={() => navigate("/blogpage")}
+
+             href="#" className="hover:underline text-gray-700 font-normal">
+              Blog
+            </a>
+             <a 
+              onClick={() => navigate("/news")}
+
+             href="#" className="hover:underline text-gray-700 font-normal">
+              News
+            </a>
+            </ul>
           </div>
           <div>
             <h3 className="font-bold mb-2 text-base">Know More</h3>

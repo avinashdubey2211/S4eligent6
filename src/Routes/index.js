@@ -10,6 +10,9 @@ import ShippingPolicy from "../Pages/ShippingPolicy";
 import CancellationPolicy from "../Pages/CancellationPolicy";
 import Categories from "../Pages/Categories";
 import CategorySubCategoryProducts from "../Components/CategoryWiseProduct";
+import BlogPage from "../Pages/BlogPage/BlogPage";
+import BlogDetailPage from "../Components/Products/BlogDetailPage/BlogDetailPage";
+import News from "../Pages/News/News";
 
 const routes = [
   {
@@ -78,6 +81,33 @@ const routes = [
     id: 20,
     path: "/:title/page",
     element: <CategorySubCategoryProducts />,
+    title: "Products"
+
+
+  },
+    {
+
+    id: 21,
+    path: "/blogpage",
+    element: <BlogPage />,
+    title: "Products"
+
+
+  },
+  {
+
+    id: 22,
+    path: "/blog_detail_page",
+    element: <BlogDetailPage />,
+    title: "Products"
+
+
+  },
+  {
+
+    id: 23,
+    path: "/news",
+    element: <News />,
     title: "Products"
 
 

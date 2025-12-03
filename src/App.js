@@ -10,6 +10,7 @@ import { store } from "./store";
 import { Provider } from "react-redux";
 import Testing from "./Testing";
 import { createTheme, ThemeProvider } from "@mui/material";
+import BlogPage from "./Pages/BlogPage/BlogPage";
 
 const App = () => {
   const [theme, setTheme] = useState(true);
@@ -39,6 +40,7 @@ const App = () => {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/test" element={<Testing />} />
               <Route path="/signin" element={<SignIn />} />
+
               {routes.map((route) => {
                 return (
                   <Route

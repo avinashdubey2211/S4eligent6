@@ -72,4 +72,12 @@ export const API_URLS = {
   socialLinks: "socialmedia-link-api/", //
   searchHistory: "api/search-history-from-redis-db/",
   BlogPage : "blog-api/",
+  News : "news-api/",
+  TermsConditions : "api/store/terms-and-conditions/",
+  PrivacyPolicy :  "privacy-policy/",
+  ReturnPolicy :  "api/store/return-refun-policy/"
+
+
+
 };
+

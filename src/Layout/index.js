@@ -13,18 +13,29 @@ import AddToCart from "../Shared/Headers/AddToCart";
 import SignIn from "../Authentication/SignInPage";
 
 
-import {
-  FaWhatsapp,
-  FaPhoneAlt,
-  FaInstagram,
-  FaFacebook,
-  FaYoutube,
-  FaLinkedin,
-} from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { FaRegCopyright } from "react-icons/fa";
+// import {
+//   FaWhatsapp,
+//   FaPhoneAlt,
+//   FaInstagram,
+//   FaFacebook,
+//   FaYoutube,
+//   FaLinkedin,
+// } from "react-icons/fa";
+
+import { FaXTwitter, FaYoutube } from "react-icons/fa6";
+import { FaFacebook, FaInstagram, FaLinkedin, FaPhoneAlt, FaRegCopyright, FaWhatsapp } from "react-icons/fa";
+import { useStore } from "../Hooks";
 
 const Layout = ({ theme, setTheme, component }) => {
+
+  const {data}=useStore()
+  // const storeData = data?.data; 
+const storeData=data?.data?.data
+
+
+  console.log(storeData,"store data")
+
+
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
   const handleTop = () => {
@@ -34,6 +45,57 @@ const Layout = ({ theme, setTheme, component }) => {
       behavior: "smooth",
     });
   };
+
+   const links = [
+    {
+      icon: <FaWhatsapp className="text-green-500 text-xl" />,
+      url: storeData?.whatsapp_url ? `https://wa.me/${storeData.whatsapp_url}` : "#", 
+      label: "WhatsApp Us",
+      gradient: "from-white to-[#e7e7e7]",
+    },
+    {
+      icon: <FaPhoneAlt className="text-blue-500 text-xl" />,
+      url: storeData?.store_number ? `tel:${storeData.store_number}` : "#", 
+      label: "Talk To Us",
+      gradient: "from-white to-[#e7e7e7]",
+    },
+    {
+      icon: <FaInstagram className="text-pink-600 text-xl" />,
+      url: storeData?.insta_url || "#",
+      label: `@${storeData?.store_name || "Instagram"}`,
+      gradient: "bg-[#fceff7]",
+    },
+    {
+      icon: <FaFacebook className="text-blue-600 text-xl" />,
+      url: storeData?.fb_url || "#", 
+      label: `@${storeData?.store_name || "Facebook"}`,
+      gradient: "bg-[#edf2fe]",
+    },
+    {
+      icon: <FaXTwitter className="text-black text-xl" />,
+      url: storeData?.twitter_url || "#",
+      label: `@${storeData?.store_name || "X"}`,
+      gradient: "bg-[#e5f9fe]",
+    },
+    {
+      icon: <FaYoutube className="text-red-600 text-xl" />,
+      url: storeData?.youtube_url || "#",
+      label: `@${storeData?.store_name || "YouTube"}`,
+      gradient: "bg-[#fce8eb]",
+    },
+    {
+      icon: <FaLinkedin className="text-[#0A66C2] text-xl" />,
+      url: storeData?.LinkedIn_url || "#", 
+      label: `@${storeData?.store_name || "LinkedIn"}`,
+      gradient: "bg-[#e2f7fe]",
+    },
+    {
+      icon: <FaRegCopyright className="text-black text-xl" />,
+      url: "#",
+      label: `@${storeData?.store_name || "Store"}`,
+      gradient: "bg-[#e8e8e8]",
+    },
+  ];
   return (
     <>
       <Headers theme={theme} setTheme={setTheme} />
@@ -72,8 +134,10 @@ const Layout = ({ theme, setTheme, component }) => {
         <AddToCart iconColor="text-gray-600" from={"BottomNav"} />
         <SignIn iconColor="text-gray-600" />
       </BottomNavigation>
+
+{/* fooder */}
       <div className="bg-white font-bold text-black px-1 sm:px-6 md:px-12 py-6 ">
-        <div className=" w-full max-w-screen overflow-x-auto  flex items-center  ">
+        {/* <div className=" w-full max-w-screen overflow-x-auto  flex items-center  ">
           <a
             href="https://wa.me/919876543210"
             target="_blank"
@@ -90,7 +154,7 @@ const Layout = ({ theme, setTheme, component }) => {
             <FaPhoneAlt className="text-blue-500 text-xl" />
             <span className="hidden md:inline  text-sm text-gray-800">Talk To Us</span>
           </a>
-          {/* Instagram */}
+          Instagram
           <a
             href="https://instagram.com"
             target="_blank"
@@ -100,7 +164,7 @@ const Layout = ({ theme, setTheme, component }) => {
             <FaInstagram className="text-pink-600 text-xl" />
             <span className="hidden md:inline text-gray-800">@Poorvika</span>
           </a>
-          {/* Facebook */}
+          Facebook
           <a
             href="https://facebook.com"
             target="_blank"
@@ -110,7 +174,7 @@ const Layout = ({ theme, setTheme, component }) => {
             <FaFacebook className="text-blue-600 text-xl" />
             <span className="hidden md:inline text-gray-800">@Poorvika</span>
           </a>
-          {/* Twitter / X */}
+          Twitter / X
           <a
             href="https://twitter.com"
             target="_blank"
@@ -120,7 +184,7 @@ const Layout = ({ theme, setTheme, component }) => {
             <FaXTwitter className="text-black text-xl" />
             <span className="hidden md:inline text-gray-800">@Poorvika</span>
           </a>
-          {/* YouTube */}
+          YouTube
           <a
             href="https://youtube.com/@Poorvika"
             target="_blank"
@@ -130,7 +194,7 @@ const Layout = ({ theme, setTheme, component }) => {
             <FaYoutube className="text-red-600 text-xl" />
             <span className="hidden md:inline text-gray-800">@Poorvika</span>
           </a>
-          {/* LinkedIn */}
+          LinkedIn
           <a
             href="https://linkedin.com"
             target="_blank"
@@ -140,7 +204,7 @@ const Layout = ({ theme, setTheme, component }) => {
             <FaLinkedin className="text-[#0A66C2] text-xl" />
             <span className="hidden md:inline text-gray-800">@Poorvika</span>
           </a>
-          {/* Thread / Copyright */}
+          Thread / Copyright
           <a
             href="#"
             className="flex items-center justify-center gap-2 px-6 py-3 w-auto bg-[#e8e8e8] hover:shadow-lg transition"
@@ -148,10 +212,28 @@ const Layout = ({ theme, setTheme, component }) => {
             <FaRegCopyright className="text-black text-xl" />
             <span className="hidden md:inline text-gray-800">@Poorvika</span>
           </a>
-        </div>
+        </div> */}
 
+         <div className="w-full max-w-screen overflow-x-auto flex items-center">
+      {data &&
+  links.map((link, idx) => 
+    link.url ? (
+      <a
+        key={idx}
+        href={link.url||"#"}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`flex items-center justify-center gap-2 px-4 py-3 ${link.gradient} hover:shadow-lg transition`}
+      >
+        {link.icon}
+        <span className="hidden md:inline text-gray-800">{link.label}</span>
+      </a>
+    ) : null
+  )}
+
+    </div>
         {/* Main Footer Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-9 mt-6 text-sm">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-9 mt-6 text-sm">
           <div>
             <h3 className="font-bold mb-2 text-base">Contact Information</h3>
             <p className="text-gray-700 font-normal text-sm sm:text-base">
@@ -246,7 +328,141 @@ const Layout = ({ theme, setTheme, component }) => {
               </li>
             </ul>
           </div>
+        </div> */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-9 mt-6 text-sm text-gray-700">
+        {/* Contact Information */}
+        <div>
+          <h3 className="font-bold mb-2 text-base">Contact Information</h3>
+         <p className="font-normal text-sm">
+  <strong>Head Office</strong> <br />
+  {/* {storeData?.address1} <br /> 
+  {storeData?.address2} <br /> 
+  {storeData?.state} */}
+  <span className="text-xs sm:text-sm">{storeData?.address1}</span> <br />
+  <span className="text-xs sm:text-sm">{storeData?.address2}</span> <br />
+  <span className="text-xs sm:text-sm">{storeData?.state}</span>
+  {storeData?.contact_us} 
+  
+</p>
+
         </div>
+
+
+        {/* Support */}
+        <div>
+          <h3 className="font-bold mb-2 text-base">Support</h3>
+          <ul className="space-y-1 font-normal">
+            <li>
+              <a href="#" className="hover:underline">
+                Contact Us
+              </a>
+                {/* <span className="text-sm sm:text-sm">{storeData?.state}</span> */}
+
+            </li>
+            <li>
+              <a
+                 onClick={() => navigate("/site_map")}
+
+               href="#" className="hover:underline">
+                Site Map
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:underline">
+                One Assist
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* Policies */}
+        <div>
+          <h3 className="font-bold mb-2 text-base">Policies</h3>
+          <ul className="space-y-1 font-normal">
+            <li>
+              <a
+               onClick={() => navigate("/termcondition")}
+
+               href="#" className="hover:underline">
+                T & C
+              </a>
+            </li>
+            <li>
+              <a 
+              onClick={() => navigate("/privacy_policy")}
+
+              href="#" className="hover:underline">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:underline">
+                CSR & Whistle Blower Policy
+              </a>
+            </li>
+            <li>
+              <a 
+                onClick={() => navigate("/returnpolicy")}
+
+              href="#" className="hover:underline">
+                Return, Replacement & Refund
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* Opportunities */}
+        <div>
+          <h3 className="font-bold mb-2 text-base">Opportunities</h3>
+          <ul className="flex flex-col space-y-1 font-normal">
+            <li>
+              <a href="#" className="hover:underline">
+                Careers
+              </a>
+            </li>
+            <li>
+              <a
+                onClick={() => navigate("/blogpage")}
+                href="#"
+                className="hover:underline"
+              >
+                Blog
+              </a>
+            </li>
+            <li>
+              <a
+                onClick={() => navigate("/news")}
+                href="#"
+                className="hover:underline"
+              >
+                News
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* Know More */}
+        <div>
+          <h3 className="font-bold mb-2 text-base">Know More</h3>
+          <ul className="space-y-1 font-normal">
+            <li>
+              <a href="#" className="hover:underline">
+                About Us
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:underline">
+                Our Stores
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:underline">
+                Service Centres
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
 
         <div className="mt-8 text-xs sm:text-sm leading-relaxed text-gray-700 font-normal">
           <h3 className="font-bold text-base">About Us:</h3>

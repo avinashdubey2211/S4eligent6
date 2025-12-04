@@ -13,6 +13,11 @@ import CategorySubCategoryProducts from "../Components/CategoryWiseProduct";
 import BlogPage from "../Pages/BlogPage/BlogPage";
 import BlogDetailPage from "../Components/Products/BlogDetailPage/BlogDetailPage";
 import News from "../Pages/News/News";
+import News_Detail from "../Components/Products/News_Detail/News_Detail";
+import Site_Map from "../Components/Products/Site_Map/Site_Map";
+import TermCondition from "../Components/Products/TermCondition/TermCondition";
+import Privacy_Policy from "../Components/Products/ Privacy&Policy/ Privacy_Policy";
+import ReturnPolicy from "../Components/Products/ReturnPolicy/ReturnPolicy";
 
 const routes = [
   {
@@ -108,6 +113,51 @@ const routes = [
     id: 23,
     path: "/news",
     element: <News />,
+    title: "Products"
+
+
+  },
+   {
+
+    id: 24,
+    path: "/news_detail",
+    element: <News_Detail/>,
+    title: "Products"
+
+
+  },
+   {
+
+    id: 25,
+    path: "/site_Map",
+    element: <Site_Map/>,
+    title: "Products"
+
+
+  },
+  {
+
+    id: 26,
+    path: "/termcondition",
+    element: <TermCondition/>,
+    title: "Products"
+
+
+  },
+  {
+
+    id: 27,
+    path: "/privacy_policy",
+    element: <Privacy_Policy/>,
+    title: "Products"
+
+
+  },
+  {
+
+    id: 27,
+    path: "/returnpolicy",
+    element: <ReturnPolicy/>,
     title: "Products"
 
 

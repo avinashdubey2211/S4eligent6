@@ -1,13 +1,12 @@
+
 import { API_URLS } from "../../Config/API_URLS";
 import axiosInstance from "../../Config/axios";
 
-export const ReturnPolicys = (redBody) => {
+export const ReturnPolicys = async () => {
   try {
-    const response = axiosInstance.get(API_URLS.ReturnPolicy, 
-      
-            redBody);
-    return response;
-  } catch ({ error }) {
+    const response = await axiosInstance.get(API_URLS.ReturnPolicy);
+    return response; 
+  } catch (error) {
     throw new Error(error.message);
   }
 };

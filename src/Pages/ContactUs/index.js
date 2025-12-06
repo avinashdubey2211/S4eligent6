@@ -4,8 +4,14 @@ import CustomButton from "../../Shared/CustomButton";
 import CustomDiv from "../../Shared/CustomDiv";
 import Text from "../../Shared/Text";
 import contactLogo from "../../Assets/Contact us.gif";
+import { useStore } from "../../Hooks";
+
 
 const ContactUs = () => {
+    const {data}=useStore()
+      const storeData=data?.data?.data
+       console.log(storeData,"store data")
+      
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -15,7 +21,28 @@ const ContactUs = () => {
   }, []);
   return (
     <>
+<CustomDiv className="py-10 bg-gradient-to-b from-gray-50 to-gray-100">
+           {/* <p className="max-w-3xl mx-auto text-center text-gray-800 text-lg sm:text-xl leading-relaxed font-medium tracking-wide">
+    {storeData?.contact_us || "No information available."}
+  </p> */}
+  <CustomDiv className="py-16 px-4 bg-gradient-to-b from-gray-50 to-gray-100">
+  {/* Title */}
+  <h2 className="text-4xl sm:text-5xl font-extrabold text-green-600 tracking-wide text-center mb-4">
+    Contact Us
+  </h2>
+
+  {/* Underline */}
+  <div className="w-24 h-1 bg-green-600 mx-auto mb-8 rounded-full"></div>
+
+  {/* Content */}
+  <p className="max-w-3xl mx-auto text-center text-gray-800 text-lg sm:text-xl leading-relaxed font-medium tracking-wide">
+    {storeData?.contact_us || "No information available."}
+  </p>
+</CustomDiv>
+
       <CustomDiv className="flex w-full bg-gray-100 p-[2%] lg:px-[8%]">
+
+       
         <CustomDiv className="flex lg:flex-row flex-col w-full shadow">
           <CustomDiv className="flex flex-col lg:w-1/2 bg-white">
             <img src={contactLogo} alt="" className="!rounded-l" />
@@ -74,6 +101,7 @@ const ContactUs = () => {
             <CustomButton className="w-1/4">Submit</CustomButton>
           </CustomDiv>
         </CustomDiv>
+      </CustomDiv>
       </CustomDiv>
     </>
   );

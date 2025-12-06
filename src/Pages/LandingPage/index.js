@@ -1286,9 +1286,11 @@ const LandingPage = () => {
               style={{
                 animationDelay: `${idx * 40}ms`,
               }}
-              onClick={() =>
-                navigate(`/product/${product.product_id}/${product.id}`)
-              }
+              // onClick={() =>
+              //   navigate(`/product/${product.product_id}/${product.id}`)
+              // }
+              onClick={() => navigate("/ProductDetail")}
+
             >
               <CustomDiv className="relative overflow-hidden aspect-square bg-gray-900">
                 {/* <img

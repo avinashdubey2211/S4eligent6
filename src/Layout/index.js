@@ -12,16 +12,6 @@ import { useNavigate } from "react-router-dom";
 import AddToCart from "../Shared/Headers/AddToCart";
 import SignIn from "../Authentication/SignInPage";
 
-
-// import {
-//   FaWhatsapp,
-//   FaPhoneAlt,
-//   FaInstagram,
-//   FaFacebook,
-//   FaYoutube,
-//   FaLinkedin,
-// } from "react-icons/fa";
-
 import { FaXTwitter, FaYoutube } from "react-icons/fa6";
 import { FaFacebook, FaInstagram, FaLinkedin, FaPhoneAlt, FaRegCopyright, FaWhatsapp } from "react-icons/fa";
 import { useStore } from "../Hooks";
@@ -48,15 +38,19 @@ const storeData=data?.data?.data
 
    const links = [
     {
-      icon: <FaWhatsapp className="text-green-500 text-xl" />,
+      icon: <FaWhatsapp className="text-green-500 text-2xl" />,
       url: storeData?.whatsapp_url ? `https://wa.me/${storeData.whatsapp_url}` : "#", 
-      label: "WhatsApp Us",
+      // label: "WhatsApp Us",
+       label: `@${storeData?.store_name || "WhatsApp Us"}`,
+
       gradient: "from-white to-[#e7e7e7]",
     },
     {
       icon: <FaPhoneAlt className="text-blue-500 text-xl" />,
       url: storeData?.store_number ? `tel:${storeData.store_number}` : "#", 
-      label: "Talk To Us",
+      // label: "Talk To Us",
+      label: `@${storeData?.store_name || "Talk To Us"}`,
+
       gradient: "from-white to-[#e7e7e7]",
     },
     {
@@ -216,8 +210,8 @@ const storeData=data?.data?.data
 
          <div className="w-full max-w-screen overflow-x-auto flex items-center">
       {data &&
-  links.map((link, idx) => 
-    link.url ? (
+      links.map((link, idx) => 
+       link.url ? (
       <a
         key={idx}
         href={link.url||"#"}
@@ -353,7 +347,10 @@ const storeData=data?.data?.data
           <h3 className="font-bold mb-2 text-base">Support</h3>
           <ul className="space-y-1 font-normal">
             <li>
-              <a href="#" className="hover:underline">
+              <a 
+              onClick={() => navigate("/contact-us")}
+
+              href="#" className="hover:underline">
                 Contact Us
               </a>
                 {/* <span className="text-sm sm:text-sm">{storeData?.state}</span> */}
@@ -368,9 +365,9 @@ const storeData=data?.data?.data
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline">
+              {/* <a href="#" className="hover:underline">
                 One Assist
-              </a>
+              </a> */}
             </li>
           </ul>
         </div>
@@ -396,9 +393,9 @@ const storeData=data?.data?.data
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline">
+              {/* <a href="#" className="hover:underline">
                 CSR & Whistle Blower Policy
-              </a>
+              </a> */}
             </li>
             <li>
               <a 
@@ -416,9 +413,9 @@ const storeData=data?.data?.data
           <h3 className="font-bold mb-2 text-base">Opportunities</h3>
           <ul className="flex flex-col space-y-1 font-normal">
             <li>
-              <a href="#" className="hover:underline">
+              {/* <a href="#" className="hover:underline">
                 Careers
-              </a>
+              </a> */}
             </li>
             <li>
               <a
@@ -446,28 +443,31 @@ const storeData=data?.data?.data
           <h3 className="font-bold mb-2 text-base">Know More</h3>
           <ul className="space-y-1 font-normal">
             <li>
-              <a href="#" className="hover:underline">
+              <a 
+              onClick={() => navigate("/about-us")}
+
+              href="#" className="hover:underline">
                 About Us
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline">
+              {/* <a href="#" className="hover:underline">
                 Our Stores
-              </a>
+              </a> */}
             </li>
             <li>
-              <a href="#" className="hover:underline">
+              {/* <a href="#" className="hover:underline">
                 Service Centres
-              </a>
+              </a> */}
             </li>
           </ul>
         </div>
       </div>
 
-        <div className="mt-8 text-xs sm:text-sm leading-relaxed text-gray-700 font-normal">
-          <h3 className="font-bold text-base">About Us:</h3>
+        <div className="mt-8 text-xs sm:text-xl leading-relaxed text-gray-700 font-normal">
+          <h3 className="font-bold text-xl">About Us:</h3>
 
-          <p className="mt-2">
+          {/* <p className="mt-2">
             Poorvika leads India as the Largest Tech and Appliance Omnichannel
             Retailer, using innovative strategies that provide wider access to
             the latest Premium Technology. Our services span across 470+
@@ -494,7 +494,11 @@ const storeData=data?.data?.data
           
             Poorvika remains the best spot to shop for all your everyday Gadgets
             and Electronic Needs!
-          </p>
+          </p> */}
+<span className="text-base sm:text-lg text-gray-700 leading-relaxed font-medium">
+  {storeData?.about_us}
+</span>
+
         </div>
 
         {/* Bottom Section */}

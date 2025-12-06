@@ -3,8 +3,14 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CustomDiv from "../../Shared/CustomDiv";
 import Text from "../../Shared/Text";
+import { useStore } from "../../Hooks";
+
 
 const AboutUs = () => {
+   const {data}=useStore()
+    const storeData=data?.data?.data
+     console.log(storeData,"store data")
+    
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -14,7 +20,7 @@ const AboutUs = () => {
   }, []);
   return (
     <>
-      <CustomDiv className="flex w-full bg-gray-100 py-10 px-[4%] lg:px-[8%]">
+      {/* <CustomDiv className="flex w-full bg-gray-100 py-10 px-[4%] lg:px-[8%]">
         <CustomDiv className="flex flex-col w-full shadow bg-white p-5 !rounded">
           <Text className="text-4xl text-center font-bold w-full">
             About Us
@@ -368,7 +374,24 @@ const AboutUs = () => {
             </div>
           </div>
         </CustomDiv>
-      </CustomDiv>
+      </CustomDiv> */}
+
+      
+    <div className="py-16 px-4 bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen text-center">
+  {/* Title */}
+  <h2 className="text-4xl sm:text-5xl font-extrabold text-blue-700 tracking-wide mb-4">
+    About Us
+  </h2>
+
+  {/* Underline */}
+  <div className="w-24 h-1 bg-blue-700 mx-auto mb-8 rounded-full"></div>
+
+  {/* Content */}
+  <p className="max-w-3xl mx-auto text-gray-700 text-base sm:text-lg leading-relaxed font-medium">
+    {storeData?.about_us || "No information available."}
+  </p>
+</div>
+
     </>
   );
 };

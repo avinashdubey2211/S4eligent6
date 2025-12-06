@@ -18,6 +18,7 @@ import Site_Map from "../Components/Products/Site_Map/Site_Map";
 import TermCondition from "../Components/Products/TermCondition/TermCondition";
 import Privacy_Policy from "../Components/Products/ Privacy&Policy/ Privacy_Policy";
 import ReturnPolicy from "../Components/Products/ReturnPolicy/ReturnPolicy";
+import ProductDetail from "../Components/Products/ProductDetail";
 
 const routes = [
   {
@@ -161,7 +162,27 @@ const routes = [
     title: "Products"
 
 
-  }
+  },
+   {
+
+    id: 28,
+    path: "/productdetail",
+    element: <ProductDetail/>,
+    title: "Products"
+
+
+  },
+  //  {
+
+  //   id: 28,
+  //   path: "/aboutus",
+  //   element: <AboutUs/>,
+  //   title: "Products"
+
+
+  // }
+
+ 
 
 
 

@@ -75,7 +75,8 @@ export const API_URLS = {
   News : "news-api/",
   TermsConditions : "api/store/terms-and-conditions/",
   PrivacyPolicy :  "privacy-policy/",
-  ReturnPolicy :  "api/store/return-refun-policy/"
+  // ReturnPolicy :  "api/store/return-refun-policy/"
+  ReturnPolicy :  "return-policy/"
 
 
 

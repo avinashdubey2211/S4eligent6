@@ -76,7 +76,8 @@ export const API_URLS = {
   TermsConditions : "api/store/terms-and-conditions/",
   PrivacyPolicy :  "privacy-policy/",
   // ReturnPolicy :  "api/store/return-refun-policy/"
-  ReturnPolicy :  "return-policy/"
+  ReturnPolicy :  "return-policy/",
+   specifications :"/api/store/product-variant-specifications-api/"
 
 
 

@@ -79,6 +79,9 @@ export const API_URLS = {
   ReturnPolicy :  "return-policy/",
    specifications :"/api/store/product-variant-specifications-api/",
   //  ProductDetail: "/api/store-product-detail-api/"
+  // CompareImg : "/api/compare-product-variants-list/"
+    CompareImg : "/api/compare-product-variant-list/"
+
 
 
 

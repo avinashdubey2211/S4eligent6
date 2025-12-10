@@ -9,7 +9,7 @@ export const Specification = async (variantId) => {
       params: { variant_id: variantId },
     });
     console.log("API response full:", response.data);
-    return response.data?.data || []; // <-- use .data here
+    return response.data?.data || [];
   } catch (error) {
     console.error("Specification API error:", error.message);
     return [];

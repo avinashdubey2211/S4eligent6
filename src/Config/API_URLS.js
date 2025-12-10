@@ -77,7 +77,8 @@ export const API_URLS = {
   PrivacyPolicy :  "privacy-policy/",
   // ReturnPolicy :  "api/store/return-refun-policy/"
   ReturnPolicy :  "return-policy/",
-   specifications :"/api/store/product-variant-specifications-api/"
+   specifications :"/api/store/product-variant-specifications-api/",
+  //  ProductDetail: "/api/store-product-detail-api/"
 
 
 
